@@ -1043,9 +1043,9 @@ class PrintJob:
         return values
     
     @property
-    def subtask_name(self) -> str:
-        return None if self._subtask_name == "" else self._subtask_name
-    
+    def subtask_name(self) -> str | None:
+        return self.cloud_model_name
+
     @property
     def cloud_model_name(self) -> str | None:
         """Return the best model name available from Bambu Cloud task data."""
@@ -1055,7 +1055,7 @@ class PrintJob:
                 value = task_data.get(field)
                 if isinstance(value, str) and value.strip():
                     return value.strip()
-        return self.subtask_name
+        return None if self._subtask_name == "" else self._subtask_name
     @property
     def print_type(self) -> str:
         return "unknown" if self._print_type == "" else self._print_type
